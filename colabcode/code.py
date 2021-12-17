@@ -69,6 +69,7 @@ class ColabCode:
             print(f"Code Server can be accessed on: {url}")
         else:
             print(f"Public URL: {url}")
+        return url
 
     def _run_lab(self):
         token = str(uuid.uuid1())
@@ -110,7 +111,10 @@ class ColabCode:
             for line in proc.stdout:
                 print(line, end="")
 
-    def run_app(self, app, workers=1):
-        self._start_server()
+    def start_server(self):
+      url = self._start_server()
+      return url
+
+    def run_app(self, app,workers=1):
         nest_asyncio.apply()
         uvicorn.run(app, host="127.0.0.1", port=self.port, workers=workers)
